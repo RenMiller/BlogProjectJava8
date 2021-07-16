@@ -1,0 +1,31 @@
+# Application dependencies
+
+require:
+    - play -> secure
+    - play -> crud
+    - docturno -> play-morphia-master 1.6.1b
+repositories:
+  #Este módulo hace que se busque todo lo "docturno" en el repoRemoto (bitbucket), y si la versión no está la busque en el dir local
+  - docturno:
+      type: chain
+      using:
+        - repoModules:
+            type: http
+            artifact: "http://sdk.docturno.com/sdk/[module]-[revision].zip"
+        - localModules:
+            type: local
+            artifact: "${application.path}/../[module]/dist/[module]-[revision].zip"
+
+      contains:
+        - docturno -> *
+  - docturnojar:
+      type: chain
+      using:
+        - repoModules:
+            type: http
+            artifact: "http://sdk.docturno.com/sdk/[module]-[revision].jar"
+        - localModules:
+            type: local
+            artifact: "${application.path}/../[module]/dist/[module]-[revision].jar"
+      contains:
+        - docturnojar -> *
